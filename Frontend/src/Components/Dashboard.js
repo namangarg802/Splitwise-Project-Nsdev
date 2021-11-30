@@ -5,6 +5,7 @@ import Addfriend from "./Addfriend";
 import AlertContext from "./AlertContext";
 import Alert from "./Alert";
 import Addexpense from "./Addexpense";
+import Payment from "./Payment";
 import "../index.css";
 function Dashboard() {
   const [active, setActive] = useState("dashboard");
@@ -13,7 +14,7 @@ function Dashboard() {
   const [expmodal, setexpModal] = useState(false);
   const [e, sete] = useState(false);
   const [o, seto] = useState(false);
-
+  const [order, setOrder] = useState(false);
   // const [friend, setfriend] = useState(userfriend);
   const friend = userfriend;
   console.log(friend, user.friends, "jiji");
@@ -149,6 +150,9 @@ function Dashboard() {
               className="px-3 py-1  shadow rounded-full text-white font-bold  
             "
               style={{ backgroundColor: "#1cc29f", color: "white" }}
+              onClick={() => {
+                setOrder(true);
+              }}
             >
               Settle Up
             </button>
@@ -292,6 +296,7 @@ function Dashboard() {
       </div>
       <Addfriend setModal={setModal} modal={modal} />
       <Addexpense setModal={setexpModal} modal={expmodal} />
+      {order ? <Payment /> : null}
     </div>
   );
 }

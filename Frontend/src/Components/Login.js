@@ -20,16 +20,19 @@ function Login() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: details.email,
-        password: details.password,
-      }),
-    });
+    const response = await fetch(
+      "https://splitwise-backend-1.herokuapp.com/api/auth/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: details.email,
+          password: details.password,
+        }),
+      }
+    );
     const json = await response.json();
     if (json.success) {
       // save auth token in local storage and redirect

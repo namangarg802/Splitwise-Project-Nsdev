@@ -36,13 +36,16 @@ function App() {
   //   return () => clearTimeout(timer);
   // });
   const getuser = async (e) => {
-    const response = await fetch("http://localhost:5000/api/auth/fetchuser", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token": localStorage.getItem("token"),
-      },
-    });
+    const response = await fetch(
+      "https://splitwise-backend-1.herokuapp.com/api/auth/fetchuser",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": localStorage.getItem("token"),
+        },
+      }
+    );
     const json = await response.json();
 
     console.log(json);
@@ -68,7 +71,7 @@ function App() {
   // console.log(user.friends, "kutta");
   const getallusers = async (e) => {
     const response = await fetch(
-      "http://localhost:5000/api/auth/fetchalluser",
+      "https://splitwise-backend-1.herokuapp.com/api/auth/fetchalluser",
       {
         method: "GET",
         headers: {

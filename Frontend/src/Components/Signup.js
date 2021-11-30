@@ -22,19 +22,22 @@ function Signup() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/auth/createuser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const response = await fetch(
+      "https://splitwise-backend-1.herokuapp.com/api/auth/createuser",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
 
-      body: JSON.stringify({
-        name: details.name,
-        email: details.email,
-        password: details.password,
-        mobileno: details.mobileno,
-      }),
-    });
+        body: JSON.stringify({
+          name: details.name,
+          email: details.email,
+          password: details.password,
+          mobileno: details.mobileno,
+        }),
+      }
+    );
     const json = await response.json();
     console.log(json);
     let err;

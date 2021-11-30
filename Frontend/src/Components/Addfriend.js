@@ -51,16 +51,19 @@ function Addfriend({ setModal, modal }) {
     if (input) {
       console.log("hii");
       console.log(filter[0]);
-      const response = await fetch("http://localhost:5000/api/auth/addfriend", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "auth-token": localStorage.getItem("token"),
-        },
-        body: JSON.stringify({
-          friend: input,
-        }),
-      });
+      const response = await fetch(
+        "https://splitwise-backend-1.herokuapp.com/api/auth/addfriend",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            friend: input,
+          }),
+        }
+      );
       const json = await response.json();
       console.log(json);
       if (json.success) {

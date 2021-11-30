@@ -178,7 +178,7 @@ function Addexpense({ setModal, modal }) {
 
       console.log(useexp);
       const response = await fetch(
-        "http://localhost:5000/api/auth/addexpense",
+        "https://splitwise-backend-1.herokuapp.com/api/auth/addexpense",
         {
           method: "POST",
           headers: {
