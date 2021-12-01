@@ -6,15 +6,18 @@ import AlertContext from "./AlertContext";
 import Alert from "./Alert";
 import Addexpense from "./Addexpense";
 import Payment from "./Payment";
+import Settle from "./Settle";
 import "../index.css";
 function Dashboard() {
   const [active, setActive] = useState("dashboard");
   const { user, setUser, setuserfriend, userfriend } = useContext(UserContext);
+  const [paymodal, setPaymodal] = useState(false);
   const [modal, setModal] = useState(false);
   const [expmodal, setexpModal] = useState(false);
-  const [e, sete] = useState(false);
-  const [o, seto] = useState(false);
+  const [owelist, setowelist] = useState({});
+  const [owedlist, setowedlist] = useState([]);
   const [order, setOrder] = useState(false);
+
   // const [friend, setfriend] = useState(userfriend);
   const friend = userfriend;
   console.log(friend, user.friends, "jiji");
@@ -33,6 +36,7 @@ function Dashboard() {
       return <li className="innerli">{f}</li>;
     });
   }
+
   console.log(list);
   return (
     <div>
@@ -75,9 +79,18 @@ function Dashboard() {
               User Dashboard <span className="fas fa-caret-down"></span>{" "}
             </button>
             <ol className="innerol">
-              <li className="innerli">Total Balance:₹0.0</li>
-              <li className="innerli">You Owe:₹0.0</li>
-              <li className="innerli">You Are Owed:₹0.0</li>
+              <li className="innerli">
+                Total Balance:{" "}
+                {user.balance
+                  ? user.balance >= 0
+                    ? `₹${user.balance}`
+                    : `-₹${Math.abs(user.balance)}`
+                  : `₹0`}
+              </li>
+              <li className="innerli">You Owe: ₹{user.owe ? user.owe : 0}</li>
+              <li className="innerli">
+                You Are Owed: ₹{user.owed ? user.owed : 0}
+              </li>
             </ol>
           </li>
           <li className="outerli">
@@ -151,7 +164,7 @@ function Dashboard() {
             "
               style={{ backgroundColor: "#1cc29f", color: "white" }}
               onClick={() => {
-                setOrder(true);
+                setPaymodal(!paymodal);
               }}
             >
               Settle Up
@@ -185,9 +198,14 @@ function Dashboard() {
                     : { color: "#FF652F" }
                 }
               >
-                {user.balance >= 0
-                  ? `₹${user.balance}`
-                  : `-₹${Math.abs(user.balance)}`}
+                {user.balance
+                  ? user.balance >= 0
+                    ? `₹${user.balance}`
+                    : `-₹${Math.abs(user.balance)}`
+                  : `₹0`}
+                {/* {user.balance? (user.balance >= 0)
+                 ? `₹${user.balance}`
+                  : `-₹${Math.abs(user.balance)}`:₹0} */}
               </span>
             </div>
             <div
@@ -232,9 +250,6 @@ function Dashboard() {
               <ul>
                 {Object.keys(user.expenses).map((f, i) => {
                   if (f != user.name && user.expenses[f] > 0) {
-                    // {
-                    //   sete(true);
-                    // }
                     return (
                       <li key={i} className=" flex align-items-center">
                         <img
@@ -263,9 +278,8 @@ function Dashboard() {
           <div className="" style={{ border: "2px solid #EEEEEE" }}></div>
           <div className="left mr-3">
             <h5>YOU ARE OWED</h5>
-            {user.expenses ? (
-              <ul>
-                {Object.keys(user.expenses).map((f, i) => {
+            {user.expenses
+              ? Object.keys(user.expenses).map((f, i) => {
                   if (f != user.name && user.expenses[f] < 0) {
                     return (
                       <li key={i} className=" flex align-items-center">
@@ -278,7 +292,7 @@ function Dashboard() {
                           <span className="mx-1 text-black ">{f}</span>
                           <span className="mx-1" style={{ color: "#1CC29F" }}>
                             {" "}
-                            you owe{" "}
+                            owes you{" "}
                             <span style={{ fontWeight: "bold" }}>
                               {`₹${Math.abs(user.expenses[f])}`}
                             </span>
@@ -287,13 +301,14 @@ function Dashboard() {
                       </li>
                     );
                   }
-                })}
-              </ul>
-            ) : null}
+                })
+              : null}
+            {/* {user.expenses ? <ul></ul> : null} */}
             {user.owed ? null : <p>You are not owed anything</p>}
           </div>
         </div>
       </div>
+      <Settle setModal={setPaymodal} modal={paymodal} />
       <Addfriend setModal={setModal} modal={modal} />
       <Addexpense setModal={setexpModal} modal={expmodal} />
       {order ? <Payment /> : null}

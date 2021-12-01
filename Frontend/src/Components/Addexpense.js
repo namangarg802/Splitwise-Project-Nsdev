@@ -10,14 +10,6 @@ import { DateContext } from "./UserContext";
 import SplitModal from "./SplitModal";
 import { ListContext } from "./UserContext";
 function Addexpense({ setModal, modal }) {
-  const [description, setDescription] = useState("");
-
-  const [cost, setCost] = useState(0);
-  const [paymodal, setpaymodal] = useState(false);
-  const [dtmodal, setdtmodal] = useState(false);
-  const [splitmodal, setsplitmodal] = useState(false);
-  const [equal, setEqual] = useState("equally");
-  // const { listobj, setlistobj } = useContext(ListContext);
   const {
     user,
     setUser,
@@ -27,6 +19,40 @@ function Addexpense({ setModal, modal }) {
     expense,
     setExpense,
   } = useContext(UserContext);
+  const [name, setName] = useState(user.name);
+  useEffect(() => {
+    setCost(0);
+    setpaymodal(false);
+    setdtmodal(false);
+    setsplitmodal(false);
+    setEqual("equally");
+    setPayer(user.name);
+    setList([user.name]);
+    setTag([]);
+    setM(true);
+    setlistobj({});
+    const _list = {};
+    _list[user.name] = 0;
+    setlistobj(_list);
+    setPart(`(₹0.00/person)`);
+    console.log(listobj, "list", tags);
+    // let _list = { ...listobj };
+    // _list[user.name] = 0;
+    // listobj[user.name] = 0;
+
+    // console.log(listobj, "list");
+    // console.log("chandiu ki chacha ne chandu ki chachi ko chandi raatme");
+    // setlistobj(_list);
+  }, [modal]);
+  const [description, setDescription] = useState("");
+
+  const [cost, setCost] = useState(0);
+  const [paymodal, setpaymodal] = useState(false);
+  const [dtmodal, setdtmodal] = useState(false);
+  const [splitmodal, setsplitmodal] = useState(false);
+  const [equal, setEqual] = useState("equally");
+  // const { listobj, setlistobj } = useContext(ListContext);
+
   let b = usrbalance;
   const [payer, setPayer] = useState(user.name);
   const [value, onChange] = useState(new Date());
@@ -43,21 +69,21 @@ function Addexpense({ setModal, modal }) {
   const [part, setPart] = useState(`(₹0.00/person)`);
   // const [sum, setSum] = useState(0);
   const [m, setM] = useState(true);
-  console.log(listobj, " list of expensese hubc");
-  console.log(user);
-  console.log(list, user.name);
+  // console.log(listobj, " list of expensese hubc");
+  // console.log(user);
+  // console.log(list, user.name);
   // console.log(sum);
   useEffect(() => {
     setdtmodal(false);
   }, [value]);
-  useEffect(() => {
-    let _list = { ...listobj };
-    _list[user.name] = 0;
+  // useEffect(() => {
+  //   let _list = { ...listobj };
+  //   _list[user.name] = 0;
 
-    console.log(listobj, "list", _list);
-    console.log("chandiu ki chacha ne chandu ki chachi ko chandi raatme");
-    setlistobj(_list);
-  }, []);
+  //   console.log(listobj, "list", _list);
+  //   console.log("chandiu ki chacha ne chandu ki chachi ko chandi raatme");
+  //   setlistobj(_list);
+  // }, []);
   // useEffect(() => {
   //   const _list = [...list];
   //   _list.push(user.name);
@@ -70,8 +96,13 @@ function Addexpense({ setModal, modal }) {
         filter = f;
       }
     });
-    console.log(filter);
-    if (filter) {
+    console.log(filter, "check kar ra hu", listobj);
+    let a = 0;
+    Object.keys(listobj).map((f) => {
+      if (f === filter) a++;
+    });
+    console.log(listobj, "add karna chau");
+    if (filter && a === 0) {
       let _list = { ...listobj };
 
       _list[e.target.value] = 0;
@@ -110,6 +141,7 @@ function Addexpense({ setModal, modal }) {
   console.log(tags);
   const getSum = () => {
     var t = 0;
+    console.log(listobj);
     Object.keys(listobj).map((f) => {
       if (payer === f) {
         t = t + parseInt(cost) - parseInt(listobj[f]);
@@ -159,10 +191,25 @@ function Addexpense({ setModal, modal }) {
       // uowed = user.owed ? parseInt(user.owed) + uowed : uowed;
       console.log(typeof user.expenses);
       const useexp = { ...user.expenses };
-      Object.keys(listobj).map((f) => {
-        if (useexp[f]) useexp[f] = parseInt(useexp[f]) + parseInt(listobj[f]);
-        else useexp[f] = 0 + parseInt(listobj[f]);
-      });
+      if (payer === user.name) {
+        Object.keys(listobj).map((f) => {
+          if (useexp[f]) useexp[f] = parseInt(useexp[f]) + parseInt(listobj[f]);
+          else useexp[f] = 0 + parseInt(listobj[f]);
+        });
+      } else {
+        Object.keys(listobj).map((f) => {
+          if (f === payer) {
+            if (useexp[f])
+              useexp[f] =
+                parseInt(useexp[f]) + parseInt(listobj[f] / tags.length);
+            else useexp[f] = 0 + parseInt(listobj[f] / tags.length);
+          } else if (f === user.name) {
+            if (useexp[f])
+              useexp[f] = parseInt(useexp[f]) + parseInt(listobj[f]);
+            else useexp[f] = 0 + parseInt(listobj[f]);
+          }
+        });
+      }
       console.log("useexp");
       Object.keys(useexp).map((f) => {
         if (f != user.name) {
@@ -329,6 +376,8 @@ function Addexpense({ setModal, modal }) {
                     <button
                       onClick={() => {
                         setpaymodal(true);
+                        setsplitmodal(false);
+                        setdtmodal(false);
                       }}
                     >
                       {payer === user.name ? "you" : payer}
@@ -336,11 +385,12 @@ function Addexpense({ setModal, modal }) {
                     and split{" "}
                     <button
                       onClick={() => {
+                        setpaymodal(false);
                         setsplitmodal(true);
+                        setdtmodal(false);
                       }}
                     >
                       {equal}
-                      {usrbalance}
                     </button>
                     .
                   </div>
@@ -363,7 +413,15 @@ function Addexpense({ setModal, modal }) {
                 </div>
               )}
               <div className="exp-main-3">
-                <button onClick={() => setdtmodal(true)}>{today}</button>
+                <button
+                  onClick={() => {
+                    setdtmodal(true);
+                    setpaymodal(false);
+                    setsplitmodal(false);
+                  }}
+                >
+                  {today}
+                </button>
               </div>
             </div>
           </div>
@@ -371,7 +429,15 @@ function Addexpense({ setModal, modal }) {
         <div className="exp-bottom ">
           <div className="exp-bottom-btn">
             {" "}
-            <button className="cancel"> Cancel</button>
+            <button
+              className="cancel"
+              onClick={() => {
+                setModal(false);
+              }}
+            >
+              {" "}
+              Cancel
+            </button>
             <button
               className="ml-3 save"
               onClick={() => {
@@ -387,6 +453,7 @@ function Addexpense({ setModal, modal }) {
         ) : null}
         {splitmodal ? (
           <SplitModal
+            splitmodal={splitmodal}
             setsplitmodal={setsplitmodal}
             tags={tags}
             list={list}

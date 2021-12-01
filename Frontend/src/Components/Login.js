@@ -16,7 +16,7 @@ function Login() {
   });
   const handleChange = (e) => {
     setDetais({ ...details, [e.target.name]: e.target.value });
-    console.log(details);
+    // console.log(details);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,7 +39,7 @@ function Login() {
       // showAlert("Logged in successfully", "success");
       window.scrollTo(0, 0);
       localStorage.setItem("token", json.jwttoken);
-      console.log(json);
+      // console.log(json);
       emailjs
         .sendForm(
           "service_5onvfzo",
@@ -49,10 +49,10 @@ function Login() {
         )
         .then(
           (result) => {
-            console.log(result.text);
+            // console.log(result.text);
           },
           (error) => {
-            console.log(error.text);
+            // console.log(error.text);
           }
         );
       showAlert("Logged In successfully", "success");
@@ -62,7 +62,7 @@ function Login() {
     } else {
       window.scrollTo(0, 0);
       showAlert(json.error, "danger");
-      console.log("error", json.error);
+      // console.log("error", json.error);
     }
   };
   return (

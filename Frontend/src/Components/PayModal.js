@@ -21,7 +21,7 @@ function PayModal({ setpaymodal, setPayer, list }) {
             color: "white",
           }}
         >
-          <h5 style={{ marginLeft: "100px" }}>Choose Payer naman garg</h5>
+          <h5 style={{ marginLeft: "100px" }}>Choose Payer</h5>
           <button
             style={{ position: "absolute", right: "10px" }}
             onClick={() => {

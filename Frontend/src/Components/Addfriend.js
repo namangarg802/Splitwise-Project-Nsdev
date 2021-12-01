@@ -10,6 +10,7 @@ function Addfriend({ setModal, modal }) {
   const { user, setUser, setuserfriend, userfriend } = useContext(UserContext);
   const { allusers, setAll } = useContext(AllUserContext);
   console.log(user.friends);
+  const [friends, setFriends] = useState(user.friends);
   const [show, setShow] = useState(false);
   const [filter, setFilter] = useState([]);
   const [active, seActive] = useState(false);
@@ -34,8 +35,10 @@ function Addfriend({ setModal, modal }) {
       seActive(true);
     }
   };
-  const Add = async () => {
-    if (user.friends.indexOf(input) != -1) {
+  const Add = async (e) => {
+    console.log(user.friends, userfriend);
+    if (userfriend.indexOf(input) != -1) {
+      console.log("jajaja");
       showAlert(`${input} already added as your friend`, "danger");
       setModal(false);
       setShow(false);
@@ -71,7 +74,9 @@ function Addfriend({ setModal, modal }) {
         let a = [...userfriend];
         a.push(input);
         setuserfriend(a);
+        console.log(userfriend, "user ka friend");
         setInput("");
+        setFriends(a);
         // getuser();
 
         showAlert(` ${json.friend} Added as your friend`, "success");

@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
 function SplitModal({
+  splitmodal,
   setsplitmodal,
   cost,
   list,
@@ -14,6 +15,13 @@ function SplitModal({
   setPart,
   setM,
 }) {
+  useEffect(() => {
+    setsplitmodal(true);
+    setowe(true);
+    setowes(true);
+    setClick(false);
+    setAmount();
+  }, [splitmodal]);
   const [method, setMethod] = useState(true);
   const [split, setsplit] = useState(true);
   const [owe, setowe] = useState(true);
@@ -159,6 +167,7 @@ function SplitModal({
               onClick={() => {
                 {
                   setClick("owe");
+                  // setsplitmodal(false);
                   return owe ? func1() : null;
                 }
               }}
@@ -181,7 +190,7 @@ function SplitModal({
           </div>
         ) : null}
         {method ? (
-          <div className="splitmodal-main2">
+          <div className="splitmodal-main2 bg-white">
             <hr style={{ margin: "10px" }} />
             <div className="flex  justify-content-center">
               <button
