@@ -1,5 +1,6 @@
 const express = require("express");
 const Razorpay = require("razorpay");
+const crypto = require("crypto");
 require("dotenv").config();
 const User = require("../Models/User");
 const router = express.Router();
@@ -32,6 +33,13 @@ router.post(
         return res
           .status(400)
           .json({ success, error: "Sorry user with this email already exist" });
+      }
+      user = await User.findOne({ mobileno: req.body.mobileno });
+      if (user) {
+        return res.status(400).json({
+          success,
+          error: "Sorry user with this mobile no already exist",
+        });
       }
       // res.json(obj);
       // res.send(req.body)
@@ -186,14 +194,15 @@ router.post("/addexpense", fetchuser, async (req, res) => {
 });
 router.post("/payment", async (req, res) => {
   console.log(process.env.RAZORPAY_KEY_ID);
+
   try {
     const instance = new Razorpay({
       key_id: process.env.RAZORPAY_KEY_ID,
       key_secret: process.env.RAZORPAY_SECRET,
     });
-
+    console.log(req.body.amount);
     const options = {
-      amount: 2000, // amount in smallest currency unit
+      amount: req.body.amount * 100, // amount in smallest currency unit
       currency: "INR",
       receipt: "receipt_order_74394",
     };
