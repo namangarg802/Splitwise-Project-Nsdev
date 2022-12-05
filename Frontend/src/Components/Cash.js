@@ -36,7 +36,7 @@ function Cash({ name, amount, setAmount, modal, bal, setModal }) {
     console.log(_list, balance, owed, owe);
 
     const response = await fetch(
-      "https://splitwise-backend-1.herokuapp.com/api/auth/addexpense",
+      "https://nsdev-splitwise.onrender.com/api/auth/addexpense",
       {
         method: "POST",
         headers: {

@@ -243,7 +243,6 @@ nav button:hover span {
 }
 .sidenav .outerli {
   line-height: 60px;
-  border-bottom: 1px solid rgb(255, 255, 255, 0.5);
 }
 .sidenav .outerli button {
   /* color: grey; */

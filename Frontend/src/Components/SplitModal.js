@@ -176,14 +176,13 @@ function SplitModal({
               You owe {list[1]} ₹{cost}
             </button>
             <button
-              className="mb-2"
               onClick={() => {
                 {
                   setClick("owes");
                   return owes ? func2() : null;
                 }
               }}
-              className={click === "owes" ? "click" : null}
+              className={click === "owes" ? "click mb-2" : "mb-2"}
             >
               {list[1]} owes you ₹{cost}
             </button>

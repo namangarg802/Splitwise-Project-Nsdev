@@ -23,7 +23,7 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await fetch(
-      "https://splitwise-backend-1.herokuapp.com/api/auth/createuser",
+      "https://nsdev-splitwise.onrender.com/api/auth/createuser",
       {
         method: "POST",
         headers: {

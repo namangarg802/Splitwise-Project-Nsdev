@@ -55,7 +55,7 @@ function Addfriend({ setModal, modal }) {
       console.log("hii");
       console.log(filter[0]);
       const response = await fetch(
-        "https://splitwise-backend-1.herokuapp.com/api/auth/addfriend",
+        "https://nsdev-splitwise.onrender.com/api/auth/addfriend",
         {
           method: "POST",
           headers: {

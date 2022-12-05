@@ -189,7 +189,6 @@ function Dashboard() {
             >
               <span> Total Balance </span>
               <span
-                style={{ color: "#999999" }}
                 style={
                   user.balance >= 0
                     ? user.balance > 0

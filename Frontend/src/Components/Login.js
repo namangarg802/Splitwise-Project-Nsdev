@@ -21,7 +21,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await fetch(
-      "https://splitwise-backend-1.herokuapp.com/api/auth/login",
+      "https://nsdev-splitwise.onrender.com/api/auth/login",
       {
         method: "POST",
         headers: {

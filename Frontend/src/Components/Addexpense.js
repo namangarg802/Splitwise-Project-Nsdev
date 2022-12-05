@@ -225,7 +225,7 @@ function Addexpense({ setModal, modal }) {
 
       console.log(useexp);
       const response = await fetch(
-        "https://splitwise-backend-1.herokuapp.com/api/auth/addexpense",
+        "https://nsdev-splitwise.onrender.com/api/auth/addexpense",
         {
           method: "POST",
           headers: {

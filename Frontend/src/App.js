@@ -17,7 +17,14 @@ import { ExpenseContext } from "./Components/UserContext";
 import { DateContext } from "./Components/UserContext";
 import Loggedout from "./Components/Loggedout";
 import { ListContext } from "./Components/UserContext";
+import ReactGA from "react-ga";
+function analytics() {
+  ReactGA.initialize("UA-249968326-3");
+  ReactGA.pageview("Home");
+  ReactGA.pageview("Dashboard");
+}
 function App() {
+  analytics();
   const [auth, setAuth] = useState(false);
   const [user, setUser] = useState({});
   const [allusers, setAll] = useState([]);
@@ -37,7 +44,7 @@ function App() {
   // });
   const getuser = async (e) => {
     const response = await fetch(
-      "https://splitwise-backend-1.herokuapp.com/api/auth/fetchuser",
+      "https://nsdev-splitwise.onrender.com/api/auth/fetchuser",
       {
         method: "GET",
         headers: {
@@ -71,7 +78,7 @@ function App() {
   // console.log(user.friends, "kutta");
   const getallusers = async (e) => {
     const response = await fetch(
-      "https://splitwise-backend-1.herokuapp.com/api/auth/fetchalluser",
+      "https://nsdev-splitwise.onrender.com/api/auth/fetchalluser",
       {
         method: "GET",
         headers: {

@@ -38,7 +38,7 @@ function Payment({ name, amount, setAmount, modal, setModal }) {
     }
     const send = { amount: cost };
     const result = await axios.post(
-      "http://localhost:5000/api/auth/payment",
+      "https://nsdev-splitwise.onrender.com/api/auth/payment",
       send
     );
     console.log(result);
@@ -67,7 +67,7 @@ function Payment({ name, amount, setAmount, modal, setModal }) {
         };
         console.log(data);
         const result = await axios.post(
-          "http://localhost:5000/api/auth/success",
+          "https://nsdev-splitwise.onrender.com/api/auth/success",
           data
         );
         console.log(result);
@@ -111,7 +111,7 @@ function Payment({ name, amount, setAmount, modal, setModal }) {
       console.log(_list, balance, owed, owe);
 
       const response = await fetch(
-        "https://splitwise-backend-1.herokuapp.com/api/auth/addexpense",
+        "https://nsdev-splitwise.onrender.com/api/auth/addexpense",
         {
           method: "POST",
           headers: {
